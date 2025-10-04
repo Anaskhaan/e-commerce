@@ -1,11 +1,14 @@
 "use client";
 
+import { X } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function SmartAlertWatchPage() {
   const [selectedPlan, setSelectedPlan] = useState("monthly");
   const [bigImage, setBigImage] = useState("/watch.png");
+  const [showModal, setShowModal] = useState(false); // modal state
 
   const smallImages = [
     "/watch.png",
@@ -13,6 +16,22 @@ export default function SmartAlertWatchPage() {
     "/watch-alt2.png",
     "/watch-alt3.png",
   ];
+
+  const product = {
+    name: "Life Alert Smart Watch",
+    price: selectedPlan === "monthly" ? 49.99 : 299.99,
+    plan: selectedPlan,
+  };
+
+  const router = useRouter();
+
+  const handlePurchase = () => {
+    router.push(
+      `/checkout?name=${encodeURIComponent(product.name)}&price=${
+        product.price
+      }&plan=${product.plan}`
+    );
+  };
 
   return (
     <section className='w-full bg-gray-50 py-16 px-6'>
@@ -151,12 +170,40 @@ export default function SmartAlertWatchPage() {
           className='px-6 py-3 rounded-lg bg-purple-600 text-white text-center hover:bg-purple-700 transition'>
           Call Now
         </a>
-        <a
-          href='#purchase'
+        <button
+          onClick={() => setShowModal(true)}
           className='px-6 py-3 rounded-lg bg-gray-200 text-gray-800 text-center hover:bg-purple-100 transition'>
           Purchase
-        </a>
+        </button>
       </div>
+
+      {/* ✅ Modal Component */}
+      {showModal && (
+        <div className='fixed inset-0 bg-black/50 flex items-center justify-center z-50'>
+          <div className='bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative'>
+            <button
+              onClick={() => setShowModal(false)}
+              className='absolute top-3 right-3 text-gray-600 hover:text-black'>
+              <X size={20} />
+            </button>
+
+            <h2 className='text-xl font-bold mb-2'>{product.name}</h2>
+            <p className='text-gray-600 mb-4'>
+              Plan:{" "}
+              <span className='font-medium capitalize'>{product.plan}</span>
+            </p>
+            <p className='text-lg font-semibold mb-4'>
+              Price: ${product.price.toFixed(2)}
+            </p>
+
+            <button
+              onClick={handlePurchase}
+              className='px-6 py-3 bg-blue-600 text-white rounded'>
+              Purchase
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

@@ -124,57 +124,6 @@ export const ProductsInfo = () => {
         </div>
 
         {/* Benefits Section */}
-        <div className='mb-20'>
-          <div className='text-center mb-12'>
-            <h3 className='text-4xl font-bold mb-6 text-gray-900'>
-              Benefits of Life Alarm Smart Alert Devices
-            </h3>
-          </div>
-
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-            {[
-              {
-                icon: Bell,
-                title: "24/7 Monitoring",
-                desc: "Round-the-clock support ensures help is available anytime.",
-              },
-              {
-                icon: UserCheck,
-                title: "Automatic Fall Detection",
-                desc: "Immediate alerts if a fall is detected, even if the wearer cannot call.",
-              },
-              {
-                icon: MapPin,
-                title: "GPS Tracking & Mobile System",
-                desc: "Know exactly where your loved one is, whether at home or outside.",
-              },
-              {
-                icon: Shield,
-                title: "Peace of Mind",
-                desc: "Families can rest assured knowing help is just a button away.",
-              },
-              {
-                icon: Globe,
-                title: "Flexible Plans & Transparent Pricing",
-                desc: "Choose the best plan without hidden activation fees or confusing equipment fees.",
-              },
-            ].map((item, idx) => (
-              <div
-                key={idx}
-                className='bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl hover:translate-y-[-4px] transition-all duration-300'>
-                <div className='flex items-center gap-4 mb-4'>
-                  <div className='w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center'>
-                    <item.icon className='w-6 h-6 text-purple-600' />
-                  </div>
-                  <h4 className='font-bold text-gray-900 text-lg'>
-                    {item.title}
-                  </h4>
-                </div>
-                <p className='text-gray-600 pl-16'>{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
 
         {/* Features That Matter Section */}
         <div className='mb-20'>
