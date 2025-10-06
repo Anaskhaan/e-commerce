@@ -1,13 +1,9 @@
 import {
   Watch,
-  UserCheck,
   MapPin,
-  Bell,
   Phone,
   Home,
-  Globe,
   Headphones,
-  Shield,
   Heart,
   Zap,
   CheckCircle,
@@ -15,23 +11,48 @@ import {
   Smartphone,
   DollarSign,
 } from "lucide-react";
+import Image from "next/image";
 
 export const ProductsInfo = () => {
   return (
     <section className='relative w-full bg-gradient-to-br from-slate-50 via-white to-purple-50 py-24 px-6 overflow-hidden'>
-      {/* Background Elements */}
+      {/* Decorative Blurred Shapes */}
       <div className='absolute top-0 right-0 w-96 h-96 bg-purple-200/20 rounded-full blur-3xl'></div>
       <div className='absolute bottom-0 left-0 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl'></div>
 
       <div className='relative max-w-7xl mx-auto'>
-        {/* Header Section */}
+        {/* ====== Emotion-Catching Hero Image ====== */}
+        <div className='relative w-full h-[420px] md:h-[500px] mb-20 rounded-3xl overflow-hidden shadow-2xl'>
+          <Image
+            src='/emotions-catching.webp'
+            alt='Caring & Protection'
+            fill
+            className='object-cover'
+            priority
+          />
+          {/* Overlay for readability */}
+          <div className='absolute inset-0 bg-black/30'></div>
+
+          {/* Text Overlay */}
+          <div className='absolute inset-0 flex flex-col justify-center items-center text-center px-6'>
+            <h2 className='text-4xl md:text-5xl font-bold text-white leading-tight mb-4 drop-shadow-lg'>
+              Safety, Care & Peace of Mind
+            </h2>
+            <p className='text-lg md:text-xl text-white/90 max-w-2xl'>
+              Empower your loved ones with reliable emergency response —
+              everywhere, anytime.
+            </p>
+          </div>
+        </div>
+
+        {/* ====== Products Header ====== */}
         <div className='text-center mb-16'>
           <h2 className='text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent'>
             Our Products
           </h2>
         </div>
 
-        {/* Product Cards */}
+        {/* ====== Product Cards ====== */}
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20'>
           {/* Necklace Card */}
           <div className='bg-white rounded-3xl p-8 shadow-2xl border border-gray-100 hover:shadow-3xl transition-all duration-300'>
@@ -123,9 +144,7 @@ export const ProductsInfo = () => {
           </div>
         </div>
 
-        {/* Benefits Section */}
-
-        {/* Features That Matter Section */}
+        {/* ====== Features Section ====== */}
         <div className='mb-20'>
           <div className='text-center mb-12'>
             <h3 className='text-4xl font-bold mb-6 text-gray-900'>
@@ -176,7 +195,7 @@ export const ProductsInfo = () => {
           </div>
         </div>
 
-        {/* How It Works Section */}
+        {/* ====== How It Works Section ====== */}
         <div className='bg-white rounded-3xl p-10 shadow-2xl border border-gray-100'>
           <div className='text-center mb-12'>
             <h3 className='text-4xl font-bold mb-6 text-gray-900'>

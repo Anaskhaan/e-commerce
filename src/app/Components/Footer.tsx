@@ -66,7 +66,7 @@ export const Footer: React.FC = () => {
         { name: "Help Center", href: "/support" },
         { name: "Contact Us", href: "/contact" },
         { name: "Device Setup", href: "/support/setup" },
-        { name: "FAQ", href: "/faq" },
+        { name: "FAQ", href: "/faqs" },
       ],
     },
     {

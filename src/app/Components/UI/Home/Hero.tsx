@@ -8,9 +8,12 @@ export const Hero: React.FC = () => {
   const router = useRouter();
 
   return (
-    <section
-      className='relative w-full min-h-screen bg-cover bg-center flex items-center justify-center'
-      style={{ backgroundImage: "url('/hero_banner.webp')" }}>
+    <section className='relative w-full min-h-screen flex items-center justify-center overflow-hidden'>
+      {/* Mirrored Background Layer */}
+      <div
+        className='absolute inset-0 bg-cover bg-center scale-x-[-1]'
+        style={{ backgroundImage: "url('/hero_banner.webp')" }}></div>
+
       {/* Soft Overlay */}
       <div className='absolute inset-0 bg-black/20'></div>
 

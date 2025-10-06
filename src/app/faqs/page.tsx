@@ -10,7 +10,7 @@ interface FAQ {
   answer: string;
 }
 
-export const FAQs: React.FC = () => {
+const FAQs: React.FC = () => {
   const faqData: FAQ[] = [
     {
       question: "What is the Life Alarm Smart Alert system?",
@@ -254,3 +254,5 @@ export const FAQs: React.FC = () => {
     </section>
   );
 };
+
+export default FAQs;

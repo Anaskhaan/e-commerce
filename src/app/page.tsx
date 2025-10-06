@@ -1,4 +1,3 @@
-import { FAQs } from "./Components/UI/Home/FAQs";
 import { Hero } from "./Components/UI/Home/Hero";
 import { PlansPricing } from "./Components/UI/Home/PlansPricing";
 import { ProductsInfo } from "./Components/UI/Home/ProductsInfo";
@@ -13,7 +12,6 @@ export default function Home() {
       <ProductsInfo />
       <PlansPricing />
       <TestimonialsSlider />
-      <FAQs />
     </div>
   );
 }

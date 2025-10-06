@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "./Components/Header";
 import { Footer } from "./Components/Footer";
 import { CartProvider } from "./context/CartContext";
+import { FloatingCart } from "./Components/FloatingCart";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +33,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Header />
         <main className='pt-16'>
-          <CartProvider>{children}</CartProvider>
+          <CartProvider>
+            {children}
+            <FloatingCart />
+          </CartProvider>
         </main>
         <Footer />
       </body>
