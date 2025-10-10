@@ -26,3 +26,18 @@ model Order {
   product    Json
   createdAt  DateTime @default(now())
 }
+model PendingOrder {
+  id                 Int      @id @default(autoincrement())
+  paymentIntentId    String?
+  name               String
+  email              String
+  contact            String
+  address            String
+  emergencyName1     String?
+  emergencyContact1  String?
+  emergencyName2     String?
+  emergencyContact2  String?
+  totalAmount        Float
+  status             String   @default("pending")
+  createdAt          DateTime @default(now())
+}

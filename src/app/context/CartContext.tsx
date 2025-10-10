@@ -8,19 +8,19 @@ import React, {
   ReactNode,
 } from "react";
 
-// Types (kept compatible with your earlier definitions)
+// Types
 export interface Product {
   id: string;
   name: string;
   price: number;
   image?: string;
   plan?: string;
-  addons?: { id: string; name: string; price: number }[]; // explicit shape for addons
+  addons?: { id: string; name: string; price: number }[];
 }
 
 export interface CartItem extends Product {
   quantity: number;
-  key: string; // unique key (id-plan-addonsKey)
+  key: string; // unique key (id-plan)
 }
 
 interface CartContextType {
@@ -29,7 +29,12 @@ interface CartContextType {
   removeFromCart: (key: string) => void;
   clearCart: () => void;
   updateQuantity: (key: string, newQuantity: number) => void;
-  updateCartItem: (key: string, patch: Partial<CartItem>) => void; // NEW
+  updateCartItem: (key: string, patch: Partial<CartItem>) => void;
+  updateAddons: (
+    key: string,
+    addon: { id: string; name: string; price: number },
+    add: boolean
+  ) => void;
   cartTotal: number;
 }
 
@@ -48,7 +53,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  // Save to localStorage when cart changes
+  // Save to localStorage
   useEffect(() => {
     try {
       localStorage.setItem("cart", JSON.stringify(cart));
@@ -58,13 +63,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   }, [cart]);
 
   // Add product to cart
-  // Note: we build a key that **does not** include addons here (so adding a plan directly groups by id+plan)
   const addToCart = (product: Product, quantity: number = 1) => {
     const uniqueKey = `${product.id}-${product.plan || "default"}`;
     setCart((prevCart) => {
       const existing = prevCart.find((item) => item.key === uniqueKey);
       if (existing) {
-        // if same plan already exists (without addons keying), increase quantity
         return prevCart.map((item) =>
           item.key === uniqueKey
             ? { ...item, quantity: item.quantity + quantity }
@@ -88,12 +91,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     setCart((prevCart) => prevCart.filter((item) => item.key !== key));
   };
 
-  // Clear cart
+  // Clear all items
   const clearCart = () => {
     setCart([]);
   };
 
-  // Update quantity
+  // Update item quantity
   const updateQuantity = (key: string, newQuantity: number) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
@@ -102,17 +105,43 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
-  // NEW: updateCartItem to patch addons, price, etc.
+  // Update any cart item partially
   const updateCartItem = (key: string, patch: Partial<CartItem>) => {
     setCart((prevCart) =>
       prevCart.map((item) => (item.key === key ? { ...item, ...patch } : item))
     );
   };
 
-  // Calculate total: use item.totalPrice if present, otherwise item.price
+  // ✅ New: Add or Remove Add-ons
+  const updateAddons = (
+    key: string,
+    addon: { id: string; name: string; price: number },
+    add: boolean
+  ) => {
+    setCart((prevCart) =>
+      prevCart.map((item) => {
+        if (item.key !== key) return item;
+
+        let updatedAddons = item.addons || [];
+        if (add) {
+          // prevent duplicates
+          const exists = updatedAddons.some((a) => a.id === addon.id);
+          if (!exists) updatedAddons = [...updatedAddons, addon];
+        } else {
+          updatedAddons = updatedAddons.filter((a) => a.id !== addon.id);
+        }
+
+        return { ...item, addons: updatedAddons };
+      })
+    );
+  };
+
+  // Calculate total (plan + addons)
   const cartTotal = cart.reduce((sum, item) => {
-    const price = (item as any).totalPrice ?? item.price ?? 0;
-    return sum + price * (item.quantity ?? 1);
+    const planPrice = item.price || 0;
+    const addonsPrice =
+      item.addons?.reduce((total, addon) => total + addon.price, 0) || 0;
+    return sum + (planPrice + addonsPrice) * (item.quantity || 1);
   }, 0);
 
   return (
@@ -124,6 +153,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         clearCart,
         updateQuantity,
         updateCartItem,
+        updateAddons, // ✅ include new function
         cartTotal,
       }}>
       {children}

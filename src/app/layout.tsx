@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Life Alaram Services",
+  title: "Life Alarm Services",
   description:
     "Life Alaram Services offers reliable safety and emergency alert systems to protect lives and ensure peace of mind for families and businesses.",
 };

@@ -45,10 +45,11 @@ export const Footer: React.FC = () => {
     {
       title: "Products",
       links: [
-        { name: "Smart Alert Necklace", href: "/products/necklace" },
-        { name: "Smart Alert Watch", href: "/products/watch" },
-        { name: "Home Base Unit", href: "/products/home-unit" },
-        { name: "Mobile System", href: "/products/mobile" },
+        {
+          name: "Smart Alert Necklace",
+          href: "/products/smart-alert-nacklace",
+        },
+        { name: "Smart Alert Watch", href: "/products/smart-alert-watch" },
       ],
     },
     {
@@ -56,16 +57,12 @@ export const Footer: React.FC = () => {
       links: [
         { name: "About Us", href: "/about" },
         { name: "Our Mission", href: "/about#mission" },
-        { name: "Careers", href: "/careers" },
-        { name: "Press Kit", href: "/press" },
       ],
     },
     {
       title: "Support",
       links: [
-        { name: "Help Center", href: "/support" },
         { name: "Contact Us", href: "/contact" },
-        { name: "Device Setup", href: "/support/setup" },
         { name: "FAQ", href: "/faqs" },
       ],
     },
@@ -74,8 +71,6 @@ export const Footer: React.FC = () => {
       links: [
         { name: "Privacy Policy", href: "/privacy" },
         { name: "Terms of Service", href: "/terms" },
-        { name: "Return Policy", href: "/returns" },
-        { name: "Warranty", href: "/warranty" },
       ],
     },
   ];

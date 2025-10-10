@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import { useCart } from "../../context/CartContext";
+
+// ⬇️ We'll fetch Stripe prices from your backend route /api/stripe-prices
+// (You’ll create that API route below.)
 
 type AddonDef = { id: string; name: string; price: number; billing?: string };
 
@@ -20,25 +23,26 @@ export default function SmartAlertWatchPage() {
     "/watch-alt3.png",
   ];
 
-  const plans = [
+  // plans state will hold dynamic prices from Stripe
+  const [plans, setPlans] = useState([
     {
       id: "911",
       name: "911 Plan",
-      price: 24.95,
+      price: null,
       billing: "monthly",
       cta: "Add to Cart",
     },
     {
       id: "family",
       name: "Family & Friends Plan",
-      price: 35.0,
+      price: null,
       billing: "monthly",
       cta: "Add to Cart",
     },
     {
       id: "monitor",
       name: "24/7 Monitoring Center Plan",
-      price: 42.0,
+      price: null,
       billing: "monthly",
       cta: "Add to Cart",
       highlight: true,
@@ -46,12 +50,13 @@ export default function SmartAlertWatchPage() {
     {
       id: "device",
       name: "Purchase Device",
-      price: 134.95,
+      price: 134.95, // static one-time
       billing: "one-time",
       cta: "Buy Now",
     },
-  ];
+  ]);
 
+  // Add-ons remain static
   const addonsDefs: AddonDef[] = [
     { id: "fall", name: "Fall Detection", price: 10, billing: "monthly" },
     {
@@ -68,8 +73,8 @@ export default function SmartAlertWatchPage() {
   );
   const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
 
-  const fmt = (n?: number) =>
-    typeof n === "number" ? `$${n.toFixed(2)}` : "$0.00";
+  const fmt = (n?: number | null) =>
+    typeof n === "number" ? `$${n.toFixed(2)}` : "Loading...";
 
   const toggleAddon = (id: string) => {
     setSelectedAddons((prev) =>
@@ -91,7 +96,7 @@ export default function SmartAlertWatchPage() {
       return { id: a.id, name: a.name, price: a.price };
     });
 
-    const basePrice = selectedPlan.price;
+    const basePrice = selectedPlan.price || 0;
     const addonsTotal = selectedAddonObjs.reduce((sum, a) => sum + a.price, 0);
     const totalPrice = parseFloat((basePrice + addonsTotal).toFixed(2));
 
@@ -107,6 +112,29 @@ export default function SmartAlertWatchPage() {
     setAddonModalOpen(false);
     router.push("/cart");
   };
+
+  // ⬇️ Fetch prices dynamically from Stripe via API
+  useEffect(() => {
+    const fetchPrices = async () => {
+      try {
+        const res = await fetch("/api/get-prices");
+        const data = await res.json();
+
+        // Match your plans with Stripe prices based on ID mapping
+        setPlans((prev) =>
+          prev.map((plan) => ({
+            ...plan,
+            price:
+              data[plan.id] !== undefined ? data[plan.id] : plan.price || null,
+          }))
+        );
+      } catch (err) {
+        console.error("Failed to fetch Stripe prices:", err);
+      }
+    };
+
+    fetchPrices();
+  }, []);
 
   return (
     <main className='w-full bg-gray-50'>
@@ -227,7 +255,12 @@ export default function SmartAlertWatchPage() {
 
                 <button
                   onClick={() => handlePlanClick(p)}
-                  className='w-full md:w-auto py-2 px-6 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition'>
+                  disabled={!p.price}
+                  className={`w-full md:w-auto py-2 px-6 rounded-lg ${
+                    p.price
+                      ? "bg-purple-600 text-white hover:bg-purple-700"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  } transition`}>
                   {p.cta}
                 </button>
               </div>
