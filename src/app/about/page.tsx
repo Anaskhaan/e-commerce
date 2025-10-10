@@ -10,7 +10,7 @@ export default function AboutPage(): JSX.Element {
         {/* Left Side: Image */}
         <div className='relative w-full lg:w-1/2 h-80 lg:h-[32rem] rounded-xl overflow-hidden shadow-lg'>
           <Image
-            src='/company_building.jpg' // replace with company image
+            src='/emotions-catching2.webp' // replace with company image
             alt='Life Alarm Services'
             fill
             className='object-cover'

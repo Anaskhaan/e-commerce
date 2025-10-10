@@ -29,10 +29,8 @@ export const Header: React.FC = () => {
     <>
       {/* Top Bar */}
       <div className='fixed top-0 left-0 right-0 z-50 w-full bg-my-purple text-white text-sm md:text-base font-medium'>
-        <div className='max-w-7xl mx-auto px-4 py-2 flex flex-col md:flex-row items-center justify-between gap-2'>
-          <p className='text-center md:text-left'>
-            🚀 Free shipping on orders over $50!
-          </p>
+        <div className='max-w-7xl mx-auto px-4 py-2 flex flex-row items-center justify-between'>
+          <p className='truncate'>🚀 Free shipping on orders over $50!</p>
           <Link
             href='/products'
             className='bg-white text-purple-700 hover:bg-gray-100 transition-all duration-300 px-4 py-1 rounded-full text-xs md:text-sm font-semibold transform hover:scale-105'>
@@ -152,16 +150,16 @@ export const Header: React.FC = () => {
               {isProductsOpen && (
                 <div className='ml-4 space-y-1 mt-1 animate-fadeIn'>
                   <Link
-                    href='/products/product1'
+                    href='/products/smart-alert-watch'
                     onClick={handleNavClick}
                     className='block py-2 px-4 hover:bg-white/10 transition-all duration-300 rounded-lg border-l-2 border-white/30'>
-                    Product 1
+                    Smart Alert Watch
                   </Link>
                   <Link
-                    href='/products/product2'
+                    href='/products/smart-alert-nacklace'
                     onClick={handleNavClick}
                     className='block py-2 px-4 hover:bg-white/10 transition-all duration-300 rounded-lg border-l-2 border-white/30'>
-                    Product 2
+                    Smart Alert Nacklace
                   </Link>
                 </div>
               )}
